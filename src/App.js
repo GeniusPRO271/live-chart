@@ -1,3 +1,4 @@
+// MOST OF THE IMPORTS ARE FOR TABLE AND CHART MOSTLY STYLE
 import React, { useEffect, useRef, useState } from 'react';
 import { Chart } from 'chart.js/auto';
 import moment from 'moment';
@@ -14,15 +15,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 function App() {
-  const chartBoth = useRef(null);
-  const [chartInstance, setChartInstance] = useState(null);
-  const [simulationIntervalId, setSimulationIntervalId] = useState(null);
-  const [startTime, setStartTime] = useState(null);
-  const [rows, setRow] = useState([]);
-  const [dataUSD, setDataUSD] = useState([]);
-  const [dataEUR, setDataEUR] = useState([]);
-  const [dayCount, setDayCount] = useState(1);
+  // REACT HOOKS TO STORE STATES
+  const chartBoth = useRef(null); // CHART REF
+  const [chartInstance, setChartInstance] = useState(null); // ACTIVE CHART
+  const [simulationIntervalId, setSimulationIntervalId] = useState(null); // INTERVAL
+  const [startTime, setStartTime] = useState(null); // SIMULATION TIME
+  const [rows, setRow] = useState([]); // ROWS FOR TABLE
+  const [dataUSD, setDataUSD] = useState([]); // DATA OF THE USD LINE
+  const [dataEUR, setDataEUR] = useState([]); // DATA OF THE EUR LINE
+  const [dayCount, setDayCount] = useState(1); // COUNT OF DAYS
 
+  // useEffect to initialize the chart with defuld data, also delete everything at end
   useEffect(() => {
     const ctx = chartBoth.current.getContext('2d');
 
@@ -85,12 +88,14 @@ function App() {
     };
   }, []);
 
+  // FORMULA ASKED TO USE FOR THE TASK  C = C * (1 + k * (random - 0.5));
   function calculateFormula(C) {
     let k = 0.02;
     let random = Math.random();
     C = C * (1 + k * (random - 0.5));
     return C;
   }
+
   // Update the chart instance with new data
   function updateChart0(day) {
     const newLabel = `Day ${day}`;
@@ -144,13 +149,6 @@ function App() {
     // Save the interval ID to state
     setSimulationIntervalId(intervalId);
   };
-  function addData() {
-    let row = [];
-    dataUSD.map((d, index) => {
-      row.push(createData(index, d, dataEUR[index]));
-    });
-    return row;
-  }
   // Stop the simulation and destroy the chart instance
   const stopSimulation = () => {
     setRow(addData());
@@ -165,18 +163,28 @@ function App() {
     setSimulationIntervalId(null);
     setStartTime(null);
   };
+  // RELOAD PAGE TO RESET THE CHART
   const ResetButton = () => {
     window.location.reload();
   };
 
+  // FUNCTIONS TO ADD DATA TO THE TALBE
+  function createData(Day, C0, C1) {
+    return { Day, C0, C1 };
+  }
+  function addData() {
+    let row = [];
+    dataUSD.map((d, index) => {
+      row.push(createData(index, d, dataEUR[index]));
+    });
+    return row;
+  }
+
+  // SCREEN SIZE FOR STYLING
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
   const chartWidth = screenWidth - 100; // subtract left and right padding
   const chartHeight = screenHeight * 0.9; // subtract top and bottom padding
-
-  function createData(Day, C0, C1) {
-    return { Day, C0, C1 };
-  }
 
   return (
     <body className="container p-2">
