@@ -44,8 +44,8 @@ function App() {
             tension: 0.1,
           },
           {
-            label: 'USD',
-            data: [1],
+            label: 'GBP',
+            data: [1.2],
             fill: false,
             borderColor: 'rgb(192, 75, 75)',
             pointBorderWidth: 5,
@@ -223,7 +223,7 @@ function App() {
             <TableHead>
               <TableRow>
                 <TableCell>Days</TableCell>
-                <TableCell align="center">USD</TableCell>
+                <TableCell align="center">GBP</TableCell>
                 <TableCell align="center">EUR</TableCell>
               </TableRow>
             </TableHead>
